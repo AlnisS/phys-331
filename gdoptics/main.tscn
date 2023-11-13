@@ -1,0 +1,87 @@
+[gd_scene load_steps=9 format=3 uid="uid://bc2voyxo0cg2y"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_7d1f3"]
+[ext_resource type="Material" uid="uid://brydsb28nmi2n" path="res://screen_material.tres" id="1_y5bnn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vq8n1"]
+metallic = 1.0
+roughness = 0.28
+
+[sub_resource type="QuadMesh" id="QuadMesh_ck7rc"]
+size = Vector2(1, 0.3)
+subdivide_width = 300
+subdivide_depth = 100
+
+[sub_resource type="QuadMesh" id="QuadMesh_ny4ym"]
+size = Vector2(0.5, 2.5)
+subdivide_width = 50
+subdivide_depth = 200
+
+[sub_resource type="Environment" id="Environment_en02g"]
+background_mode = 1
+background_color = Color(0.207843, 0.207843, 0.207843, 1)
+ssr_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nmuxf"]
+cull_mode = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_46g2s"]
+size = Vector2(0.02, 0.02)
+orientation = 2
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_7d1f3")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.766044, 0.166366, -0.620885, 0, 0.965926, 0.258819, 0.642788, -0.198267, 0.739942, -1.045, 0.42, 0.57)
+fov = 30.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, -1.25)
+size = Vector3(2, 0.2, 3)
+material = SubResource("StandardMaterial3D_vq8n1")
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0)
+light_color = Color(0.776471, 0.643137, 0.513726, 1)
+
+[node name="Screen" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+material_override = ExtResource("1_y5bnn")
+mesh = SubResource("QuadMesh_ck7rc")
+
+[node name="Screen2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.099, -1.5)
+material_override = ExtResource("1_y5bnn")
+mesh = SubResource("QuadMesh_ny4ym")
+
+[node name="DistanceSlider" type="HSlider" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -141.0
+offset_top = -31.0
+offset_right = 141.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 0
+max_value = 2.0
+step = 0.001
+value = 0.5
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_en02g")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
+material_override = SubResource("StandardMaterial3D_nmuxf")
+mesh = SubResource("PlaneMesh_46g2s")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.760918)
+light_color = Color(1, 0, 0, 1)
+spot_angle = 0.2
+
+[connection signal="value_changed" from="DistanceSlider" to="." method="_on_distance_slider_value_changed"]
