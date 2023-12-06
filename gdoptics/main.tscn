@@ -52,6 +52,7 @@ mesh = SubResource("QuadMesh_ck7rc")
 
 [node name="Screen2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.099, -1.5)
+visible = false
 material_override = ExtResource("1_y5bnn")
 mesh = SubResource("QuadMesh_ny4ym")
 
