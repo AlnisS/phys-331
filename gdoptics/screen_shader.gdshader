@@ -51,5 +51,5 @@ void vertex() {
 
 void fragment() {
 //	ALBEDO = world_vertex.xyz;
-	ALBEDO = vec3(amplitude, 0.0, 0.0) + vec3(0.1);
+	ALBEDO = vec3(amplitude, 0.0, 0.0) + vec3(0.01);
 }

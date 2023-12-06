@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bc2voyxo0cg2y"]
+[gd_scene load_steps=11 format=3 uid="uid://bc2voyxo0cg2y"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_7d1f3"]
 [ext_resource type="Material" uid="uid://brydsb28nmi2n" path="res://screen_material.tres" id="1_y5bnn"]
@@ -12,6 +12,10 @@ size = Vector2(1, 0.3)
 subdivide_width = 300
 subdivide_depth = 100
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wimcd"]
+shading_mode = 0
+albedo_color = Color(0.0666667, 0.0666667, 0.0666667, 1)
+
 [sub_resource type="QuadMesh" id="QuadMesh_ny4ym"]
 size = Vector2(0.5, 2.5)
 subdivide_width = 50
@@ -19,7 +23,8 @@ subdivide_depth = 200
 
 [sub_resource type="Environment" id="Environment_en02g"]
 background_mode = 1
-background_color = Color(0.207843, 0.207843, 0.207843, 1)
+tonemap_mode = 3
+tonemap_exposure = 4.0
 ssr_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nmuxf"]
@@ -29,15 +34,20 @@ cull_mode = 2
 size = Vector2(0.02, 0.02)
 orientation = 2
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3n3pn"]
+shading_mode = 0
+albedo_color = Color(0.0666667, 0.0666667, 0.0666667, 1)
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_7d1f3")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.766044, 0.166366, -0.620885, 0, 0.965926, 0.258819, 0.642788, -0.198267, 0.739942, -1.045, 0.42, 0.57)
+transform = Transform3D(0.984808, 0.0449435, -0.167731, 0, 0.965926, 0.258819, 0.173648, -0.254887, 0.951251, -0.155, 0.46, 1.25)
 fov = 30.0
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, -1.25)
+visible = false
 size = Vector3(2, 0.2, 3)
 material = SubResource("StandardMaterial3D_vq8n1")
 
@@ -49,6 +59,14 @@ light_color = Color(0.776471, 0.643137, 0.513726, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
 material_override = ExtResource("1_y5bnn")
 mesh = SubResource("QuadMesh_ck7rc")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Screen"]
+material_override = SubResource("StandardMaterial3D_wimcd")
+size = Vector3(0.21, 0.21, 0.01)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Screen/CSGBox3D3"]
+operation = 2
+size = Vector3(0.2, 0.2, 0.2)
 
 [node name="Screen2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.099, -1.5)
@@ -85,4 +103,121 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.760918)
 light_color = Color(1, 0, 0, 1)
 spot_angle = 0.2
 
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -256.0
+offset_bottom = 256.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.001)
+projection = 1
+size = 0.2
+near = 0.001
+far = 10.0
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -256.0
+offset_top = 256.0
+offset_bottom = 512.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer2"]
+handle_input_locally = false
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer2/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.001)
+projection = 1
+size = 0.1
+near = 0.001
+far = 10.0
+
+[node name="LabelD" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -113.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "PLACEHOLDER"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ButtonLS" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "One slit (small)"
+
+[node name="ButtonLM" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "One slit (medium)"
+
+[node name="ButtonTLC" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Two slits (close)"
+
+[node name="ButtonTLM" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Two slits (medium)"
+
+[node name="ButtonDIAG" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Two slits (diagonal)"
+
+[node name="ButtonCS" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Circle (small)"
+
+[node name="ButtonCM" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Circle (medium)"
+
+[node name="ButtonTCC" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Two circles (close)"
+
+[node name="ButtonTCM" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Two circles (medium)"
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, -1)
+material_override = SubResource("StandardMaterial3D_3n3pn")
+size = Vector3(1, 1.1, 2)
+
 [connection signal="value_changed" from="DistanceSlider" to="." method="_on_distance_slider_value_changed"]
+[connection signal="pressed" from="VBoxContainer/ButtonLS" to="." method="_on_button_ls_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButtonLM" to="." method="_on_button_lm_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButtonTLC" to="." method="_on_button_tlc_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButtonTLM" to="." method="_on_button_tlm_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButtonDIAG" to="." method="_on_button_diag_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButtonCS" to="." method="_on_button_cs_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButtonCM" to="." method="_on_button_cm_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButtonTCC" to="." method="_on_button_tcc_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButtonTCM" to="." method="_on_button_tcm_pressed"]
