@@ -7,6 +7,11 @@ var mask := []:
 		mask = _mask
 		mat.set_shader_parameter("sources", mask)
 
+var wavelength := 635e-8:
+	set(_wavelength):
+		wavelength = _wavelength
+		mat.set_shader_parameter("wavelength", wavelength)
+		$LabelW.text = str(round(wavelength * 1e8))
 
 var time = 0.0
 var lmt = 0.0
@@ -114,3 +119,7 @@ func _on_button_ls_pressed():
 
 func _on_button_lm_pressed():
 	mask = mask_slit(0.200e-3)
+
+
+func _on_wavelength_slider_value_changed(value):
+	wavelength = value * 1e-8

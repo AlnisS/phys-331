@@ -90,6 +90,22 @@ max_value = 2.0
 step = 0.001
 value = 0.5
 
+[node name="WavelengthSlider" type="HSlider" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -141.0
+offset_top = -54.0
+offset_right = 141.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 0
+min_value = 350.0
+max_value = 780.0
+value = 635.0
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_en02g")
 
@@ -157,6 +173,16 @@ offset_bottom = 23.0
 grow_horizontal = 0
 text = "PLACEHOLDER"
 
+[node name="LabelW" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -113.0
+offset_top = 27.0
+offset_bottom = 50.0
+grow_horizontal = 0
+text = "PLACEHOLDER"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
@@ -212,6 +238,7 @@ material_override = SubResource("StandardMaterial3D_3n3pn")
 size = Vector3(1, 1.1, 2)
 
 [connection signal="value_changed" from="DistanceSlider" to="." method="_on_distance_slider_value_changed"]
+[connection signal="value_changed" from="WavelengthSlider" to="." method="_on_wavelength_slider_value_changed"]
 [connection signal="pressed" from="VBoxContainer/ButtonLS" to="." method="_on_button_ls_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonLM" to="." method="_on_button_lm_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonTLC" to="." method="_on_button_tlc_pressed"]

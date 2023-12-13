@@ -2,13 +2,13 @@ shader_type spatial;
 
 render_mode unshaded;
 
+#include "wavelength_to_rgb.gdshaderinc"
+
 // declare as varying to allow using in fragment(), if needed
 varying flat vec4 world_vertex;
 
 // light intensity (square of magnitude of phasor)
 varying float intensity;
-
-const float wavelength = 635e-8;
 
 // TODO: investigate & expand this limit
 const int n_sources = 1000;
@@ -16,6 +16,9 @@ const int n_sources = 1000;
 // point sources of light in the mask
 // TODO: incorporate specification of phases of source light
 uniform vec3 sources[n_sources];
+
+// TODO: we have an off-by-factor-of-10 throughout the code for wavelenghts
+uniform float wavelength = 635e-8;
 
 
 // The `vertex` function executes once per vertex in the mesh used as the target
@@ -48,7 +51,8 @@ void vertex() {
 	intensity = pow(length(phasor), 2.0);
 	
 	// TODO: actually calculate the color based on wavelength
-	COLOR.rgb = vec3(intensity, 0.0, 0.0) + vec3(0.01);
+	//COLOR.rgb = vec3(intensity, 0.0, 0.0) + vec3(0.01);
+	COLOR.rgb = wl2rgbTannenbaum(wavelength * 1e8) * intensity + vec3(0.01);
 }
 
 
